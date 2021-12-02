@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+
+    <script>
+        const url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-1D4A93AD-B874-4F3C-8F48-F5DE009A592D';
+         
+        fetch(url)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            console.log(data);
+            //取出所有縣市的資料
+            let locations = data['records']['location'];    //一個陣列
+            console.log(locations);
+            
+            // 建立一個存放整理後資料的物件
+            let weatherData = {};
+                                        //這個參數是一個物件
+            locations.forEach(function(location) {
+
+                            //以縣市名稱當Key 建立物件 初始化
+                weatherData[location['locationName']] = {};     //臺中市:{} 這樣的感覺
+                //console.log(weatherData);
+                //取出此縣市所有天氣因子
+                let weatherElements = location['weatherElement'];   //陣列
+                
+                weatherElements.forEach(function(weatherElement){
+                    //臺中市:{ 'Wx':'晴'    第一次迴圈
+                    //      }
+                    //臺中市:{ 'Wx':'晴'    第二次迴圈
+                    //         'MaxT': 20 
+                    //      }
+                                            // 因天氣因子有五個所以跑五次
+
+                                  //以[縣市名稱]                [天氣因子]當Key               放入資料
+                    weatherData[location['locationName']][weatherElement['elementName']] = weatherElement['time'][0]['parameter']['parameterName'];
+                    
+                   
+                });
+            });
+            // console.log(weatherData);
+        });
+
+    </script>
+</body>
+</html>
