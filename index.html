@@ -10,505 +10,7 @@
 
     <title>Document</title>
 
-    <style >
-
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI',SegoeUI,'Microsoft JhengHei',微軟正黑體,"Helvetica Neue",Helvetica,Arial,sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --color_white: rgb(243, 243, 243);
-            --color_yellow: #FFD633;
-            --color_black: #333;
-            --color_blue_start: #19283D;
-            --color_blue_end: #1D678F;
-            --color_rain: #4DACFF;
-            --color_white_cloud: rgb(242, 249, 254);
-            --color_grey_cloud: #ccc;
-        }
-
-        body{
-            position: relative;
-            /* background: linear-gradient(#C2FFF9,#94DAFF); */
-            background-color: #c7e4ec;;
-            background-repeat: no-repeat;
-            min-height: 100vh;    
-        }
-
-        body::before{
-            content: '';
-            position: fixed;
-            bottom: -15%;
-            left: 25%;
-            width: 40%;
-            height: 60%;
-            background-image: url(./img/clound.png);
-            background-size: contain;
-            background-repeat: no-repeat;
-            transform: rotate(20deg);
-            z-index: -1; 
-        }
-
-        body::after{
-            content: '';
-            position: fixed;
-            bottom: -25%;
-            right:-13%;
-            width: 50%;
-            height: 100%;
-            background-image: url(./img/sun.png);
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: -1;    
-        }
-
-        /*以下為老師給的svg圖檔的CSS*/
-        .sunny {
-            width: 180px;
-            height: 180px;
-            fill: rgba(255, 214, 51, 1);
-            stroke: rgba(255, 214, 51, 0.5);  /*描邊*/
-            stroke-dasharray: 3px; /*虛線*/
-            stroke-width: 15px; /*線寬*/
-        }
-
-        #sun {
-            fill: rgba(255, 214, 51, 1);
-            stroke: rgba(255, 214, 51, 0.5);
-            stroke-dasharray: 3px;     
-            stroke-width: 15px;
-        }
-
-        .cloudy_sunny {
-            width: 180px;
-            height: 180px;
-        }
-
-        .cloudy {
-            width: 180px;
-            height: 180px;
-        }
-
-        #cloud {
-            fill: rgb(242, 249, 254);
-        }
-
-        #cloud2 {
-            fill: rgb(225, 241, 252);
-        }
-
-
-        .overcast {
-            width: 180px;
-            height: 180px;
-        }
-
-        #overcast_cloud {
-            fill: rgb(209, 209, 209);
-        }
-
-        #overcast_cloud2 {
-            fill: rgb(150, 146, 146);
-        }
-
-        .rainy {
-            width: 180px;
-            height: 180px;
-        }
-        .rainy_thunder{
-            width: 180px;
-            height: 180px;
-        }
-
-        #rain {
-            /* fill: rgb(221, 234, 247); */
-            fill: rgb(138, 186, 235);
-        }
-
-        #thunder{
-            fill: rgba(255, 214, 51, 1);
-            stroke:rgba(255, 214, 51, 1);
-            stroke-width: 1;
-        }
-        /*以上為老師給的svg圖檔的CSS*/
-
-
-        .container{
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        /* 以下為地圖的CSS */
-        #Taiwan{
-            width: 43%;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-
-        .location{
-            fill:#FFFFFF;
-            stroke:#231815;
-            stroke-miterlimit:10;     
-        }
-
-        .northern-region>.location{
-            fill:#9FD8DF;
-        }
-
-        .central-region>.location{
-            fill:#FFD384;
-        }
-
-        .southern-region>.location{
-            fill:#F5C0C0;
-        }
-
-        .eastern-region>.location{
-            fill:#91C788;
-        }
-
-        .outlying-islands>.location{
-            fill:#d89069;
-        }
-        
-        .location:hover,.regionActive{
-            transform: translate3d(-5px,-10px,100px); /*x軸 y軸 z軸*/
-            filter: brightness(0.95) drop-shadow(12px 12px 5px  rgba(0, 0, 0, 0.7));
-                    /*條亮度 1為正常, 愈大愈亮,愈小愈暗*/  /*物體本身形體的陰影 x偏移 y偏移 模糊程度 顏色*/
-        }
-
-        .location:active{
-            transform: translate3d(0,0,0);  
-            filter: brightness(1);
-        }
-        
-        .regionActive{
-            transition: 0.3s linear;    
-        }
-
-        /* 以上為地圖的CSS */
-
-        /* 以下為nav-bar的CSS */
-        .nav-bar{
-            position: fixed;
-            display: flex;
-            right: 0;
-            width: 49.2%;
-            background-color: #DED9C4;
-            border-radius: 0 0 0 10px;
-            border-left: 2px solid #5c5c5e;
-            border-bottom: 2px solid #5c5c5e;
-            box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-
-        .nav-btn{
-            /* border:1px solid #000000; */
-            font-size: 20px;
-            padding: 10px;
-            text-align: center;
-            font-weight: 900;
-            text-decoration: none;
-            color: rgb(68, 68, 68);
-        }
-
-        .selectCardVersion{
-            position: absolute;;
-            left: 9px;
-            width: 80px;
-            height: 100%;
-            background-color: #cec5a4;
-            z-index: -2;
-        }
-
-        @keyframes selectSlidingRight {
-            0%{
-                transform: translateX(0);
-                /* left: 1.25%; */
-            }
-            100%{
-                transform: translateX(80px);
-                /* left: 11.7%; */
-            }
-        }
-
-        @keyframes selectSlidingLeft {
-            0%{
-                transform: translateX(80px);
-                /* left: 11.7%; */
-            }
-            100%{
-                transform: translateX(0);
-                /* left: 1.25%; */
-            }
-        }
-
-
-        .nav-btn:first-child{
-            margin-left: 10px;
-        }
-
-        .nav-btn:hover::after{
-            content: '';
-            position: absolute;
-            bottom: 15%;
-            transform: translateX(-5.2%);
-            background-color: #000000;
-            border: 1px solid #000000;
-            width: 65px;
-            display: block;  
-        }
-
-        .currentTime{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 15px;
-            font-weight: 700;
-            margin: 0 auto;
-            color: #897853;
-        }
-        
-        .search-bar{   
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: auto;
-        }
-
-        .search-input{
-            height: 60%;
-            margin-right: 5px;
-            padding-left: 10px;
-        }
-        
-        .search-btn{
-            border: 1px solid #000000;
-            margin-right: 15px;
-            padding: 5px 10px;
-            text-align: center;
- 
-            text-decoration: none;
-            color: rgb(68, 68, 68);
-            border-radius: 5px;
-            background-color: #DED9C4;
-        }
-        .search-btn:hover{
-            background-color: #ffffff;
-            
-        }
-        .search-btn:active{
-            background-color: #cec5a4;
-        }
-
-        /* 以上為nav-bar的CSS */
-
-
-        /* 以下為天氣卡片區的CSS */
-        .cards{
-            margin-left: auto;
-            width: 50%;
-            margin-top: 70px;
-            /* display: flex;
-            justify-content: center;
-            flex-wrap: wrap; */
-        }
-
-        .card{
-            display: inline-block;
-            width: 200px;
-            border-radius: 5px 5px 15px 15px;           
-            margin: 40px 15px 20px;
-            /* background:  rgba(255, 255, 255, 0.3); */
-            background:  #bea775;   
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-            border-top: 1px solid rgba(255, 255, 255, 0.5); 
-            border-left: 1px solid rgba(255, 255, 255, 0.8);
-            position: relative;
-            z-index: 0;
-        }
-        
-        
-        .content h2{
-            text-align: center;
-            font-size: 30px;
-            margin: -20px 0px 0px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #5c5c5e;
-            color: #FFEACA;
-            font-weight: 900;
-            z-index:0;    
-        }
-
-        .content h2::before{
-            content: '';
-            position: absolute;
-            left: 49.5%;
-            transform: translateX(-50%);
-            width: 44%;
-            height: 16.7%;
-            padding: 0 20px;
-            background-color: #BB8760;
-            border-radius: 5px 5px 0 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.5); 
-            border-left: 1px solid rgba(255, 255, 255, 0.5);
-            /* filter: drop-shadow(1px 0px 1px  rgba(0, 0, 0, 0.5)); */
-            /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); */
-            z-index: -1;
-        }
-
-        .time-period{
-            /* display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column; */
-            position: relative;
-            z-index: 0;   
-        }
-
-        .time-period span{
-            font-size: 10px;
-        }
-
-        .time-period-1 {
-            background-color: #FEF7DC;
-        }
-
-        .time-period-2 {
-            background-color: #E6DDC6;
-        }
-
-        .time-period-3 {
-            border-radius: 0px 0px 15px 15px; 
-            background-color: #C2B8A3;
-        }
-
-        .time-period h3{
-            font-size: 15px;
-            margin-left: 10px;
-            color: #897853;
-        }
-
-        .time-period h3:first-child{
-            padding-top: 10px;
-        }
-
-        .time-period h4{
-            font-size: 20px;
-            margin-left: 10px;  
-            color: #4F0E0E;
-        }
-
-        .time-period h5{
-            margin-left: 10px;
-            color: #835151;
-
-        }
-        .time-period h6{
-            margin: 0px 10px 0px 10px;
-            padding-bottom: 10px;
-            /* border-bottom: 1px solid  #e469226c; */
-            color: rgb(146, 70, 16);
-            font-weight: 900;
-        }
-
-        .time-period svg {
-            position: absolute;
-            top: -5%;
-            left: 50%;
-            width: 50%;
-            z-index: -1;
-        }
-        /* 以上為天氣卡片區的CSS */
-
-        /* 以下為沒找到的的CSS */
-        .not-found{
-            position: absolute;
-            top:13%;
-            right: 19%;
-            width: 30%;
-            height: 20%;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            border-radius: 15px;
-            background-color: #C2B8A3;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-            border-top: 1px solid rgba(255, 255, 255, 0.5); 
-            border-left: 1px solid rgba(255, 255, 255, 0.8);
-        }
-
-        .not-found h1{
-            color: #4F0E0E;
-        }
-
-        /* 以上為沒找到的的CSS */
-
-
-        /* 以下為地區按鈕的CSS */
-        .region-btns{
-            position: fixed;
-            top: 5%;
-            left: 38%;
-            display: flex;
-            flex-direction: column;
-            z-index: 1;     
-        }
-
-        .region-btn{
-            margin: 0 0 20px 0;
-            padding: 5px 10px;
-            width: 40px;
-            height: 50px;
-            overflow: hidden;
-            text-align: center;
-            font-weight: 900;
-            text-decoration: none;
-            border-radius: 40px;
-            color: rgb(68, 68, 68);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            transition: 0.3s ease-in-out;
-        }
-
-        .region-btn:hover{
-            height: 97px;
-        }
-
-        .region-btn:active{
-            transform: scale(0.8);    
-        }
-
-        .all-region-btn{
-            background:#C9CBFF;
-        }
-
-        .northern-region-btn{
-            background:#9FD8DF;
-        }
-
-        .central-region-btn{
-            background:#FFD384;
-        }
-
-        .southern-region-btn{
-            background:#F5C0C0;
-        }
-
-        .eastern-region-btn{
-            background:#91C788;
-        }
-
-        .outlying-islands-btn{
-            background:#d89069;
-        }
-        /* 以上為地區按鈕的CSS */
-        
-
-    </style>
+    <link rel="stylesheet" href="./css/style.css">
 
 </head>
 <body id="Top">
@@ -762,88 +264,7 @@
         
         <!-- 卡片區 -->
         <div class="cards">
-            <div class="card">
-                <div class="content">
-                    <h2>台中市</h2>
-                    <div class="time-period time-period-1">
-                        <h3>2021/11/20 06:00 ~</h3>
-                        <h3>~2021/11/21 18:00</h3>
-                        <h4>晴時多雲</h4>
-                        <h5>降雨機率：0%</h5>
-                        <h5>0°C ~ 10°C</h5>
-                        <h6>舒適</h6>
-                        <svg class="sunny" viewbox="15 15 70 70">   
-                            <circle id="sun" cx="50" cy="50" r="20">
-                                <animateTransform dur="5s" attributeName="transform" repeatCount="indefinite" type="rotate" from="0,50,50"
-                                    to="360,50,50" />    
-                            </circle>
-                        </svg>
-                    </div>
-                    
-                    <div class="time-period time-period-2">
-                        <h3>2021/11/20 06:00 ~</h3>
-                        <h3>~2021/11/21 18:00</h3>
-                        <h4>晴時多雲</h4>
-                        <h5>降雨機率：0%</h5>
-                        <h5>0°C ~ 10°C</h5>
-                        <h6>舒適</h6>
-                        <svg class="sunny" viewbox="15 15 70 70">   
-                            <circle id="sun" cx="50" cy="50" r="20">
-                                <animateTransform dur="5s" attributeName="transform" repeatCount="indefinite" type="rotate" from="0,50,50"
-                                    to="360,50,50" />    
-                            </circle>
-                        </svg>
-                    </div>
-                    <div class="time-period time-period-3">
-                        <h3>2021/11/20 06:00 ~</h3>
-                        <h3>~2021/11/21 18:00</h3>
-                        <h4>晴時多雲</h4>
-                        <h5>降雨機率：0%</h5>
-                        <h5>0°C ~ 10°C</h5>
-                        <h6>舒適</h6>
-                        <svg class="sunny" viewbox="15 15 70 70">   
-                            <circle id="sun" cx="50" cy="50" r="20">
-                                <animateTransform dur="5s" attributeName="transform" repeatCount="indefinite" type="rotate" from="0,50,50"
-                                    to="360,50,50" />    
-                            </circle>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2>台中市</h2>
-                    <div class="time-period time-period-2">
-                        <h3>11/20 06:00 ~</h3>
-                        <h3>~ 11/21 18:00</h3>
-                        <h4>晴時多雲</h4>
-                        <h5>降雨機率：0%</h5>
-                        <h5>0°C ~ 10°C</h5>
-                        <h6>舒適</h6>
-                        <svg class="sunny" viewbox="15 15 70 70">   
-                            <circle id="sun" cx="50" cy="50" r="20">
-                                <animateTransform dur="5s" attributeName="transform" repeatCount="indefinite" type="rotate" from="0,50,50"
-                                    to="360,50,50" />    
-                            </circle>
-                        </svg>
-                    </div>
-                    <div class="time-period time-period-3">
-                        <h3>11/20 06:00 ~</h3>
-                        <h3>~ 11/21 18:00</h3>
-                        <h4>晴時多雲</h4>
-                        <h5>降雨機率：0%</h5>
-                        <h5>0°C ~ 10°C</h5>
-                        <h6>舒適</h6>
-                        <svg class="sunny" viewbox="15 15 70 70">   
-                            <circle id="sun" cx="50" cy="50" r="20">
-                                <animateTransform dur="5s" attributeName="transform" repeatCount="indefinite" type="rotate" from="0,50,50"
-                                    to="360,50,50" />    
-                            </circle>
-                        </svg>
-                    </div>
-                </div>
-                 
-            </div>       
+               
         </div>
 
         <!-- 找不到符合的縣市 -->
@@ -880,128 +301,119 @@
         const notFoundElement = document.querySelector('.not-found');
         const timeElement = document.querySelector('.time');
 
-        let selectCardVersionElement = document.querySelector('.selectCardVersion');
+        const selectCardVersionElement = document.querySelector('.selectCardVersion');
 
-        let detailCards='',simpleCards='',cardVersion='simpleButton';
+        let cards='',cardVersion='simpleButton';
+                                 //'detailButton'
 
         const url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-1D4A93AD-B874-4F3C-8F48-F5DE009A592D';
         
         let allLocationCount = 22;
-
-        let weather_data_time_period1 = [{"locationName":'臺北市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'新北市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'基隆市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'桃園市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'新竹市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'新竹縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'宜蘭縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'苗栗縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},{"locationName":'臺中市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'彰化縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},{"locationName":'雲林縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'南投縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'嘉義市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'嘉義縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'臺南市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'高雄市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'屏東縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'澎湖縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'花蓮縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'東部地區'},{"locationName":'臺東縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'東部地區'},
-                                         {"locationName":'金門縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'離島地區'},{"locationName":'連江縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'離島地區'}
-                                        ];
-        let weather_data_time_period2 = [{"locationName":'臺北市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'新北市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'基隆市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'桃園市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'新竹市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'新竹縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'宜蘭縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'苗栗縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},{"locationName":'臺中市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'彰化縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},{"locationName":'雲林縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'南投縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'嘉義市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'嘉義縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'臺南市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'高雄市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'屏東縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'澎湖縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'花蓮縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'東部地區'},{"locationName":'臺東縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'東部地區'},
-                                         {"locationName":'金門縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'離島地區'},{"locationName":'連江縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'離島地區'}
-                                        ];
-        let weather_data_time_period3 = [{"locationName":'臺北市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'新北市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'基隆市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'桃園市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'新竹市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},{"locationName":'新竹縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'宜蘭縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'北部地區'},
-                                         {"locationName":'苗栗縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},{"locationName":'臺中市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'彰化縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},{"locationName":'雲林縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'南投縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'中部地區'},
-                                         {"locationName":'嘉義市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'嘉義縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'臺南市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'高雄市',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'屏東縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},{"locationName":'澎湖縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'南部地區'},
-                                         {"locationName":'花蓮縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'東部地區'},{"locationName":'臺東縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'東部地區'},
-                                         {"locationName":'金門縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'離島地區'},{"locationName":'連江縣',"start_year":'',"start_month":'',"start_day":'',"start_time":'',"end_year":'',"end_month":'',"end_day":'',"end_time":'',"Wx":'',"PoP":'',"MinT":'',"MaxT":'',"CI":'',"region":'離島地區'}
-                                        ];                                          
+        const locationsArray = ['臺北市', '新北市', '基隆市', '桃園市', '新竹市','新竹縣', '宜蘭縣',    //北 0~6
+                                '苗栗縣', '臺中市', '彰化縣', '雲林縣', '南投縣',                      //中 7~11
+                                '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '澎湖縣',            //南  12~17
+                                '花蓮縣', '臺東縣',                                                  //東  18~19
+                                '金門縣', '連江縣'];                                                 //離島 20~21
+         
+        let weatherData = {};//裝整理好的資料之物件
                                 
         fetch(url)
         .then(function(response){
-            console.log(response);
             return response.json(); //傳到下一個then
         })
         .then(function(data){
-            console.log(data);
-            //資料整理
-            for (let i = 0; i < allLocationCount; i++) {
-                for(let j = 0; j < allLocationCount; j++){
-                    if(weather_data_time_period1[i]['locationName'] == data['records']['location'][j]['locationName']){
-                        //時段1
-                        weather_data_time_period1[i]['start_year'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['startTime'].slice(0,4);        //起始年 
-                        weather_data_time_period1[i]['start_month'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['startTime'].slice(5,7);       //起始月
-                        weather_data_time_period1[i]['start_day'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['startTime'].slice(8,10);        //起始日
-                        weather_data_time_period1[i]['start_time'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['startTime'].slice(11,16);      //起始時、分
-                        weather_data_time_period1[i]['end_year'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['endTime'].slice(0,4);            //結束年 
-                        weather_data_time_period1[i]['end_month'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['endTime'].slice(5,7);           //結束月
-                        weather_data_time_period1[i]['end_day'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['endTime'].slice(8,10);            //結束日
-                        weather_data_time_period1[i]['end_time'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['endTime'].slice(11,16);          //結束時、分        
-                        weather_data_time_period1[i]['Wx'] = data['records']['location'][j]['weatherElement'][0]['time'][0]['parameter']['parameterName'];          //Wx   天氣現象
-                        weather_data_time_period1[i]['PoP'] = data['records']['location'][j]['weatherElement'][1]['time'][0]['parameter']['parameterName'];         //PoP  降雨機率
-                        weather_data_time_period1[i]['MinT'] = data['records']['location'][j]['weatherElement'][2]['time'][0]['parameter']['parameterName'];        //MinT 最低溫度
-                        weather_data_time_period1[i]['MaxT'] = data['records']['location'][j]['weatherElement'][4]['time'][0]['parameter']['parameterName'];        //MaxT 最高溫度
-                        weather_data_time_period1[i]['CI'] = data['records']['location'][j]['weatherElement'][3]['time'][0]['parameter']['parameterName'];          //CI   舒適度                  
-                        //時段2
-                        weather_data_time_period2[i]['start_year'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['startTime'].slice(0,4);        //起始年 
-                        weather_data_time_period2[i]['start_month'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['startTime'].slice(5,7);       //起始月
-                        weather_data_time_period2[i]['start_day'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['startTime'].slice(8,10);        //起始日
-                        weather_data_time_period2[i]['start_time'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['startTime'].slice(11,16);      //起始時、分
-                        weather_data_time_period2[i]['end_year'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['endTime'].slice(0,4);            //結束年 
-                        weather_data_time_period2[i]['end_month'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['endTime'].slice(5,7);           //結束月
-                        weather_data_time_period2[i]['end_day'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['endTime'].slice(8,10);            //結束日
-                        weather_data_time_period2[i]['end_time'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['endTime'].slice(11,16);          //結束時、分        
-                        weather_data_time_period2[i]['Wx'] = data['records']['location'][j]['weatherElement'][0]['time'][1]['parameter']['parameterName'];          //Wx   天氣現象
-                        weather_data_time_period2[i]['PoP'] = data['records']['location'][j]['weatherElement'][1]['time'][1]['parameter']['parameterName'];         //PoP  降雨機率
-                        weather_data_time_period2[i]['MinT'] = data['records']['location'][j]['weatherElement'][2]['time'][1]['parameter']['parameterName'];        //MinT 最低溫度
-                        weather_data_time_period2[i]['MaxT'] = data['records']['location'][j]['weatherElement'][4]['time'][1]['parameter']['parameterName'];        //MaxT 最高溫度
-                        weather_data_time_period2[i]['CI'] = data['records']['location'][j]['weatherElement'][3]['time'][1]['parameter']['parameterName'];          //CI   舒適度
-                        //時段3
-                        weather_data_time_period3[i]['start_year'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['startTime'].slice(0,4);        //起始年 
-                        weather_data_time_period3[i]['start_month'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['startTime'].slice(5,7);       //起始月
-                        weather_data_time_period3[i]['start_day'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['startTime'].slice(8,10);        //起始日
-                        weather_data_time_period3[i]['start_time'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['startTime'].slice(11,16);      //起始時、分
-                        weather_data_time_period3[i]['end_year'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['endTime'].slice(0,4);            //結束年 
-                        weather_data_time_period3[i]['end_month'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['endTime'].slice(5,7);           //結束月
-                        weather_data_time_period3[i]['end_day'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['endTime'].slice(8,10);            //結束日
-                        weather_data_time_period3[i]['end_time'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['endTime'].slice(11,16);          //結束時、分        
-                        weather_data_time_period3[i]['Wx'] = data['records']['location'][j]['weatherElement'][0]['time'][2]['parameter']['parameterName'];          //Wx   天氣現象
-                        weather_data_time_period3[i]['PoP'] = data['records']['location'][j]['weatherElement'][1]['time'][2]['parameter']['parameterName'];         //PoP  降雨機率
-                        weather_data_time_period3[i]['MinT'] = data['records']['location'][j]['weatherElement'][2]['time'][2]['parameter']['parameterName'];        //MinT 最低溫度
-                        weather_data_time_period3[i]['MaxT'] = data['records']['location'][j]['weatherElement'][4]['time'][2]['parameter']['parameterName'];        //MaxT 最高溫度
-                        weather_data_time_period3[i]['CI'] = data['records']['location'][j]['weatherElement'][3]['time'][2]['parameter']['parameterName'];          //CI   舒適度
-        
-                        j = allLocationCount;
-                    }
-                }    
-            }
+            //取出所有縣市的資料
+            let locations = data['records']['location'];    //一個陣列
+            
+            //22個縣市                  //location是一個物件
+            locations.forEach(function(location,index){
+                //以縣市名為Key
+                weatherData[location['locationName']] = {};
+
+                let weatherElements = location['weatherElement'] //一個陣列
+                //5個天氣因子
+                weatherElements.forEach(function(weatherElement){
+                    //以縣市名+天氣因子為key
+                    weatherData[location['locationName']][weatherElement['elementName']] = {};
+                    let times = weatherElement['time'];
+                    //天氣因子裡面放起始時間、結束時間、parameter
+                    weatherData[location['locationName']][weatherElement['elementName']]['startTime'] = [];
+                    weatherData[location['locationName']][weatherElement['elementName']]['endTime'] = [];
+                    weatherData[location['locationName']][weatherElement['elementName']]['parameter'] = [];
+                    //3個時段所以跑一個迴圈把資料放進去
+                    times.forEach(function(time,index){
+                        weatherData[location['locationName']][weatherElement['elementName']]['startTime'][index] = time['startTime'];
+                        weatherData[location['locationName']][weatherElement['elementName']]['endTime'][index] = time['endTime'];
+                        weatherData[location['locationName']][weatherElement['elementName']]['parameter'][index] = time['parameter']['parameterName'];
+                        //大概長這樣
+                        // {
+                        //     臺中市:{   
+                        //             Wx:{ 
+                        //                 startTime:[0,1,2],
+                        //                 endTime:[0,1,2],
+                        //                 parameter:[A,B,C]
+                        //             }
+                        //             PoP:{
+                        //                 startTime:[0,1,2],
+                        //                 endTime:[0,1,2],
+                        //                 parameter:[A,B,C]
+                        //             }
+                        //             ...
+                        //     }
+                        //     臺北市:{   
+                        //             Wx:{ 
+                        //                 startTime:[0,1,2],
+                        //                 endTime:[0,1,2],
+                        //                 parameter:[A,B,C]
+                        //             }
+                        //             PoP:{
+                        //                 startTime:[0,1,2],
+                        //                 endTime:[0,1,2],
+                        //                 parameter:[A,B,C]
+                        //             }
+                        //             ...
+                        //     }
+                        //     ...
+                        // }
+                    });
+                 });
+                 setRegion(location['locationName']);
+            });
 
             //第一次建置畫面
             setWeatherCard('region','全部地區');
             setCardVersion();
+        
         });
 
+        console.log(weatherData);
+        
+        //設定區域
+        function setRegion(locationName){
+            if(locationName == locationsArray[0] || locationName == locationsArray[1] || locationName == locationsArray[2] || locationName == locationsArray[3] || locationName == locationsArray[4] || locationName == locationsArray[5] || locationName == locationsArray[6]){
+                weatherData[locationName]['region'] = '北部地區';
+            }
+            else if(locationName == locationsArray[7] || locationName == locationsArray[8] || locationName == locationsArray[9] || locationName == locationsArray[10] || locationName == locationsArray[11]){
+                weatherData[locationName]['region'] = '中部地區';
+            }
+            else if(locationName == locationsArray[12] || locationName == locationsArray[13] || locationName == locationsArray[14] || locationName == locationsArray[15] || locationName == locationsArray[16] || locationName == locationsArray[17]){
+                weatherData[locationName]['region'] = '南部地區';
+            }
+            else if(locationName == locationsArray[18] || locationName == locationsArray[19]){
+                weatherData[locationName]['region'] = '東部地區';
+            }
+            else{
+                weatherData[locationName]['region'] = '離島地區';
+            }  
+        };
+
         //updateTime();
-        console.log(weather_data_time_period1);
-        console.log(weather_data_time_period2);
-        console.log(weather_data_time_period3);
 
 
         //區域按鈕
         regionButtons.forEach(function (regionButton) {
             regionButton.addEventListener('click', function(e) {
-                e.stopPropagation();    //如果此按鈕跟其他監聽事件重疊,阻止他不要往外一直觸發
+                e.stopPropagation();    //如果此按鈕跟其他監聽事件重疊,阻止它不要往外一直觸發
                 setRegionActiveTag('regionButton',regionButton.textContent);
                 setWeatherCard('region',regionButton.textContent);
                 setCardVersion();
@@ -1035,9 +447,11 @@
         searchButton.addEventListener('click',function (e) {
             e.stopPropagation();
             let inputElementValue = inputElement.value.replace("台","臺");
-            searchAccordLocation(inputElementValue);
-            setRegionActiveTag('searchButton',inputElementValue);
-            setCardVersion();
+            if(inputElementValue){
+                searchAccordLocation(inputElementValue);
+                setRegionActiveTag('searchButton',inputElementValue);
+                setCardVersion();    
+            }
         });
         
         //點擊input欄位
@@ -1047,14 +461,16 @@
             inputElement.value = '';
         });
 
-        //input輸入完後按下Enter搜尋    //壓下鍵盤就觸發
-        inputElement.addEventListener('keydown',function (e) {
+        //input輸入完後按下Enter搜尋    
+        inputElement.addEventListener('change',function (e) {
             e.stopPropagation();
-            if(e.keyCode != 13) return; //不是enterr就不繼續執行
+            // if(e.keyCode != 13) return; //不是enterr就不繼續執行
             let inputElementValue = inputElement.value.replace("台","臺");
-            searchAccordLocation(inputElementValue);
-            setRegionActiveTag('searchButton',inputElementValue);
-            setCardVersion();
+            if(inputElementValue){
+                searchAccordLocation(inputElementValue);
+                setRegionActiveTag('searchButton',inputElementValue);
+                setCardVersion();    
+            }
         });
 
         //時間
@@ -1067,10 +483,9 @@
 
         //模糊搜尋
         function searchAccordLocation(word) {
-            detailCards = '';
-            simpleCards = '';
+            cards = '';
             for(let i = 0 ; i < allLocationCount ; i++){
-                if(weather_data_time_period1[i]['locationName'].indexOf(word) >=0 ){    //存在這個字(>=)就代表找到
+                if(locationsArray[i].indexOf(word) >=0 ){    //存在這個字(>=0)就代表找到
                     setCardContent(i);
                 }
             }
@@ -1078,96 +493,42 @@
 
         //將資料放入天氣小卡
         function setWeatherCard(keyWord,theRegion) {
-            detailCards = '';
-            simpleCards= '';
-            for (let i = 0; i < allLocationCount; i++) {
-                if(theRegion == weather_data_time_period1[i][`${keyWord}`] || theRegion == '全部地區'){
-                    setCardContent(i);
-                    //縣市找到了
-                    if(keyWord == 'locationName'){
-                        i = allLocationCount;
+            cards = '';          
+            if(keyWord == 'region'){    //點地區按鈕的
+                locationsArray.forEach(function(location,index){
+                    if(theRegion == weatherData[location][keyWord] || theRegion == '全部地區'){
+                        setCardContent(index);
                     }
-                }
-            }             
+                });
+            }
+            else{   //直接點擊地圖縣市的
+                locationsArray.forEach(function(location,index){
+                    if(theRegion == locationsArray[index]){
+                        setCardContent(index);
+                    }
+                });
+            }           
         }
 
         //建置card與其內容        
         function setCardContent(index) {
             //詳細版本的card
-            detailCards +=  `<div class="card" data-aos="fade-up">
-                                <div class="content">
-                                    <h2>${weather_data_time_period1[index]['locationName']}</h2>
-                                    <div class="time-period time-period-1">
-                                        <h3>${weather_data_time_period1[index]['start_year']}/${weather_data_time_period1[index]['start_month']}/${weather_data_time_period1[index]['start_day']} ${weather_data_time_period1[index]['start_time']} ~</h3>
-                                        <h3>~ ${weather_data_time_period1[index]['end_year']}/${weather_data_time_period1[index]['end_month']}/${weather_data_time_period1[index]['end_day']} ${weather_data_time_period1[index]['end_time']}</h3>
-                                        <h4>${weather_data_time_period1[index]['Wx']}</h4>
-                                        <h5>降雨機率：${weather_data_time_period1[index]['PoP']}%</h5>
-                                        <h5>${weather_data_time_period1[index]['MinT']}°C ~ ${weather_data_time_period1[index]['MaxT']}°C</h5>
-                                        <h6>${weather_data_time_period1[index]['CI']}</h6>
-                            `;
-            //判斷下雨機率給予天氣icon
-            detailCards += setWeatherIcon(weather_data_time_period1[index]['PoP']);
-
-            detailCards +=  `       </div>
-                                    <div class="time-period time-period-2">
-                                        <h3>${weather_data_time_period2[index]['start_year']}/${weather_data_time_period2[index]['start_month']}/${weather_data_time_period2[index]['start_day']} ${weather_data_time_period2[index]['start_time']} ~</h3>
-                                        <h3>~ ${weather_data_time_period2[index]['end_year']}/${weather_data_time_period2[index]['end_month']}/${weather_data_time_period2[index]['end_day']} ${weather_data_time_period2[index]['end_time']}</h3>
-                                        <h4>${weather_data_time_period2[index]['Wx']}</h4>
-                                        <h5>降雨機率：${weather_data_time_period2[index]['PoP']}%</h5>
-                                        <h5>${weather_data_time_period2[index]['MinT']}°C ~ ${weather_data_time_period2[index]['MaxT']}°C</h5>
-                                        <h6>${weather_data_time_period2[index]['CI']}</h6>
-                            `;
-            //判斷下雨機率給予天氣icon
-            detailCards += setWeatherIcon(weather_data_time_period2[index]['PoP'],detailCards);
-            
-            detailCards +=  `       </div>
-                                    <div class="time-period time-period-3">
-                                        <h3>${weather_data_time_period3[index]['start_year']}/${weather_data_time_period3[index]['start_month']}/${weather_data_time_period3[index]['start_day']} ${weather_data_time_period3[index]['start_time']} ~</h3>
-                                        <h3>~ ${weather_data_time_period3[index]['end_year']}/${weather_data_time_period3[index]['end_month']}/${weather_data_time_period3[index]['end_day']} ${weather_data_time_period3[index]['end_time']}</h3>
-                                        <h4>${weather_data_time_period3[index]['Wx']}</h4>
-                                        <h5>降雨機率：${weather_data_time_period3[index]['PoP']}%</h5>
-                                        <h5>${weather_data_time_period3[index]['MinT']}°C ~ ${weather_data_time_period3[index]['MaxT']}°C</h5>
-                                        <h6>${weather_data_time_period3[index]['CI']}</h6>
-                            `;
-            //判斷下雨機率給予天氣icon  
-            detailCards += setWeatherIcon(weather_data_time_period3[index]['PoP'],detailCards);
-            
-            detailCards +=  `       </div>
-                                </div>
-                            </div>`;
-            
-            ////////////////////
-            //簡約版本的card
-            simpleCards +=  `<div class="card" data-aos="fade-up">
-                                <div class="content">
-                                    <h2>${weather_data_time_period1[index]['locationName']}</h2>
-                                    <div class="time-period time-period-2">
-                                        <h3>${weather_data_time_period1[index]['start_month']}/${weather_data_time_period1[index]['start_day']} ${weather_data_time_period1[index]['start_time']} ~</h3>
-                                        <h3>~ ${weather_data_time_period1[index]['end_month']}/${weather_data_time_period1[index]['end_day']} ${weather_data_time_period1[index]['end_time']}</h3>
-                                        <h4>${weather_data_time_period1[index]['Wx']}</h4>
-                                        <h5>降雨機率：${weather_data_time_period1[index]['PoP']}%</h5>
-                                        <h5>${weather_data_time_period1[index]['MinT']}°C ~ ${weather_data_time_period1[index]['MaxT']}°C</h5>
-                                        <h6>${weather_data_time_period1[index]['CI']}</h6>
-                            `;
-            //判斷下雨機率給予天氣icon
-            simpleCards += setWeatherIcon(weather_data_time_period1[index]['PoP'],simpleCards);
-
-            simpleCards +=`         </div>
-                                    <div class="time-period time-period-3">
-                                        <h3>${weather_data_time_period2[index]['start_month']}/${weather_data_time_period2[index]['start_day']} ${weather_data_time_period2[index]['start_time']} ~</h3>
-                                        <h3>~ ${weather_data_time_period2[index]['end_month']}/${weather_data_time_period2[index]['end_day']} ${weather_data_time_period2[index]['end_time']}</h3>
-                                        <h4>${weather_data_time_period2[index]['Wx']}</h4>
-                                        <h5>降雨機率：${weather_data_time_period2[index]['PoP']}%</h5>
-                                        <h5>${weather_data_time_period2[index]['MinT']}°C ~ ${weather_data_time_period2[index]['MaxT']}°C</h5>
-                                        <h6>${weather_data_time_period2[index]['CI']}</h6>
-                            `;
-            //判斷下雨機率給予天氣icon
-            simpleCards += setWeatherIcon(weather_data_time_period2[index]['PoP'],simpleCards);
-            
-            simpleCards +=`          </div>
-                                </div>
-                            </div>`;
-
+            cards +=  ` <div class="card" data-aos="fade-up">
+                            <div class="content">
+                                <h2>${locationsArray[index]}</h2>`;
+            for(let i =0; i<3; i++){
+                cards +=`       <div class="time-period">
+                                    <h3><span>${weatherData[locationsArray[index]]['Wx']['startTime'][i].slice(0,4)}/</span>${weatherData[locationsArray[index]]['Wx']['startTime'][i].slice(5,7)}/${weatherData[locationsArray[index]]['Wx']['startTime'][i].slice(8,10)} ${weatherData[locationsArray[index]]['Wx']['startTime'][i].slice(11,16)} ~</h3>
+                                    <h3>~ <span>${weatherData[locationsArray[index]]['Wx']['endTime'][i].slice(0,4)}/</span>${weatherData[locationsArray[index]]['Wx']['endTime'][i].slice(5,7)}/${weatherData[locationsArray[index]]['Wx']['endTime'][i].slice(8,10)} ${weatherData[locationsArray[index]]['Wx']['endTime'][i].slice(11,16)}</h3>
+                                    <h4>${weatherData[locationsArray[index]]['Wx']['parameter'][i]}</h4>
+                                    <h5>降雨機率：${weatherData[locationsArray[index]]['PoP']['parameter'][i]}%</h5>
+                                    <h5>${weatherData[locationsArray[index]]['MinT']['parameter'][i]}°C ~ ${weatherData[locationsArray[index]]['MaxT']['parameter'][i]}°C</h5>
+                                    <h6>${weatherData[locationsArray[index]]['CI']['parameter'][i]}</h6>
+                                    ${setWeatherIcon(weatherData[locationsArray[index]]['PoP']['parameter'][i])}
+                                 </div>`;
+            }
+            cards +=  `     </div>
+                        </div>`;
         }
         
         //判斷下雨機率給予天氣icon
@@ -1310,21 +671,32 @@
         function setCardVersion() {
 
             //顯示出沒找到符合的card
-            if( !detailCards && !simpleCards ){
+            if( !cards ){
                 notFoundElement.style['display'] = 'flex';
                 cardsElement.innerHTML = '';
             }
-            else{ //有符合的card
+            else{
                 notFoundElement.style['display'] = 'none';
-                //card版本
-                if(cardVersion == 'detailButton'){
-                    cardsElement.innerHTML = detailCards;    
-                }
-                else{
-                    cardsElement.innerHTML = simpleCards;
-                }
+
+                cardsElement.innerHTML = cards;
+                let yearElements = document.querySelectorAll('.time-period span');
+                let timePeriod2Elements = document.querySelectorAll('.time-period:nth-child(3)');
+                let timePeriod3Elements = document.querySelectorAll('.time-period:nth-child(4)');
+                
+                if(cardVersion == 'simpleButton'){     //simpleButton
+                    yearElements.forEach(function(yearElement){
+                        yearElement.style['display'] = 'none';
+                    });
+                    timePeriod2Elements.forEach(function(timePeriod2Element){
+                        timePeriod2Element.style['background-color'] = '#C2B8A3';
+                        timePeriod2Element.style['border-radius'] = '0px 0px 15px 15px';
+                    });
+                    timePeriod3Elements.forEach(function(timePeriod3Element){
+                        timePeriod3Element.style['display'] = 'none';
+                    });
+                }               
             }
-            
+                 
             //3D平滑傾斜特效套件
             setVanillaTilt();
         }
@@ -1361,8 +733,6 @@
                     });
                 }   
             }
-            
-
         }
 
         //點隨意地方,地圖恢復原狀
