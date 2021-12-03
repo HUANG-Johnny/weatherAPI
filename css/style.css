@@ -360,7 +360,7 @@ body::after{
     font-size: 15px;
 }
 
-.time-period:nth-child(2) {     /*為啥從2開始?*/
+.time-period:nth-child(2) {
     background-color: #FEF7DC;
 }
 
