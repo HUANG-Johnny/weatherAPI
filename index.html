@@ -304,11 +304,11 @@
         const selectCardVersionElement = document.querySelector('.selectCardVersion');
 
         let cards='',cardVersion='simpleButton';
-                                 //'detailButton'
+                               //'detailButton'
 
         const url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-1D4A93AD-B874-4F3C-8F48-F5DE009A592D';
         
-        let allLocationCount = 22;
+        const allLocationCount = 22;
         const locationsArray = ['臺北市', '新北市', '基隆市', '桃園市', '新竹市','新竹縣', '宜蘭縣',    //北 0~6
                                 '苗栗縣', '臺中市', '彰化縣', '雲林縣', '南投縣',                      //中 7~11
                                 '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '澎湖縣',            //南  12~17
@@ -377,9 +377,9 @@
                         // }
                     });
                  });
+                 //設定各縣市的地區
                  setRegion(location['locationName']);
             });
-
             //第一次建置畫面
             setWeatherCard('region','全部地區');
             setCardVersion();
@@ -388,7 +388,7 @@
 
         console.log(weatherData);
         
-        //設定區域
+        //設定各縣市的地區
         function setRegion(locationName){
             if(locationName == locationsArray[0] || locationName == locationsArray[1] || locationName == locationsArray[2] || locationName == locationsArray[3] || locationName == locationsArray[4] || locationName == locationsArray[5] || locationName == locationsArray[6]){
                 weatherData[locationName]['region'] = '北部地區';
@@ -408,7 +408,6 @@
         };
 
         //updateTime();
-
 
         //區域按鈕
         regionButtons.forEach(function (regionButton) {
@@ -671,7 +670,7 @@
         function setCardVersion() {
 
             //顯示出沒找到符合的card
-            if( !cards ){
+            if(!cards){
                 notFoundElement.style['display'] = 'flex';
                 cardsElement.innerHTML = '';
             }
